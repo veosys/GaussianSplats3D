@@ -2,41 +2,29 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: [ main ]
+    branches:
+      - main
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      
+      - name: Checkout
+        uses: actions/checkout@v3
+
       - name: Setup Node.js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
           node-version: '16'
-          
+
       - name: Install dependencies
         run: npm install
-        
+
       - name: Build
         run: npm run build
-        
-      - name: Prepare deployment
-        run: |
-          # Create deployment directory
-          mkdir -p deploy
-          # Copy all files from build/demo
-          cp -r build/demo/* deploy/
-          # Copy _headers file
-          cp demo/_headers deploy/
-          # Create index.html that redirects to camera_positions.html
-          echo '<!DOCTYPE html><html><head><meta http-equiv="refresh" content="0;url=camera_positions.html"></head></html>' > deploy/index.html
-          # List contents of deploy directory to verify
-          ls -la deploy/
-        
+
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./deploy
-          force_orphan: true 
+          publish_dir: ./build/demo 
