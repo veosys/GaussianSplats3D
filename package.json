@@ -5,9 +5,10 @@
         "url": "https://github.com/mkkellogg/GaussianSplats3D"
     },
     "version": "0.4.7",
-    "description": "Three.js-based 3D Gaussian splat viewer",
+    "description": "Three.js-based renderer for 3D Gaussian Splatting",
     "module": "build/gaussian-splats-3d.module.js",
     "main": "build/gaussian-splats-3d.umd.cjs",
+    "types": "build/gaussian-splats-3d.module.d.ts",
     "author": "Mark Kellogg",
     "license": "MIT",
     "type": "module",
@@ -15,11 +16,8 @@
         "build-demo": "mkdir -p ./build/demo && cp -r ./demo ./build/ && cp ./node_modules/three/build/three.module.js ./build/demo/lib/three.module.js",
         "build-library": "npx rollup -c && mkdir -p ./build/demo/lib && cp ./build/gaussian-splats-3d.module.* ./build/demo/lib/",
         "build": "npm run build-library && npm run build-demo",
-        "build-demo-windows": "(if not exist \".\\build\\demo\" mkdir .\\build\\demo) && xcopy /E .\\demo .\\build\\demo && xcopy .\\node_modules\\three\\build\\three.module.js .\\build\\demo\\lib\\",
-        "build-library-windows": "npx rollup -c && (if not exist \".\\build\\demo\\lib\" mkdir .\\build\\demo\\lib) && copy .\\build\\gaussian-splats-3d* .\\build\\demo\\lib\\",
-        "build-windows": "npm run build-library-windows && npm run build-demo-windows",
-        "watch": "npx npm-watch ",
-        "demo": "node util/proxy-server.cjs",
+        "build-windows": "npx rollup -c && mkdir -p .\\build\\demo\\lib && copy .\\build\\gaussian-splats-3d.module.* .\\build\\demo\\lib\\ && mkdir -p .\\build\\demo && xcopy /E /I .\\demo .\\build\\demo && copy .\\node_modules\\three\\build\\three.module.js .\\build\\demo\\lib\\three.module.js",
+        "demo": "npx http-server ./build/demo -p 8080 --cors",
         "fix-styling": "npx stylelint **/*.scss --fix",
         "fix-js": "npx eslint src --fix",
         "lint": "npx eslint 'src/**/*.js' || true",
@@ -39,14 +37,11 @@
     },
     "babel": {},
     "keywords": [
-        "three",
-        "threejs",
         "three.js",
-        "splatting",
-        "3D",
-        "gaussian",
-        "webgl",
-        "javascript"
+        "gaussian splatting",
+        "3D rendering",
+        "point cloud",
+        "radiance field"
     ],
     "devDependencies": {
         "@babel/core": "7.22.0",
@@ -62,12 +57,16 @@
         "express": "^4.21.2",
         "file-loader": "6.2.0",
         "http-proxy-middleware": "^3.0.3",
-        "http-server": "14.1.1",
+        "http-server": "^14.1.1",
         "npm-watch": "0.11.0",
         "prettier": "3.0.2",
         "prettier-eslint": "15.0.1",
-        "rollup": "3.28.1",
-        "url-loader": "4.1.1"
+        "rollup": "^4.9.6",
+        "url-loader": "4.1.1",
+        "@rollup/plugin-commonjs": "^25.0.7",
+        "@rollup/plugin-node-resolve": "^15.2.3",
+        "@rollup/plugin-typescript": "^11.1.6",
+        "typescript": "^5.3.3"
     },
     "peerDependencies": {
         "three": ">=0.160.0"
