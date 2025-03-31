@@ -23,17 +23,20 @@ jobs:
         
       - name: Prepare deployment
         run: |
-          # Создаем директорию для деплоя
+          # Create deployment directory
           mkdir -p deploy
-          # Копируем все файлы из build/demo
+          # Copy all files from build/demo
           cp -r build/demo/* deploy/
-          # Копируем _headers файл
+          # Copy _headers file
           cp demo/_headers deploy/
-          # Создаем index.html, который будет перенаправлять на camera_positions.html
+          # Create index.html that redirects to camera_positions.html
           echo '<!DOCTYPE html><html><head><meta http-equiv="refresh" content="0;url=camera_positions.html"></head></html>' > deploy/index.html
+          # List contents of deploy directory to verify
+          ls -la deploy/
         
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./deploy 
+          publish_dir: ./deploy
+          force_orphan: true 
