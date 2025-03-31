@@ -6,18 +6,19 @@
     },
     "version": "0.4.7",
     "description": "Three.js-based renderer for 3D Gaussian Splatting",
-    "module": "build/gaussian-splats-3d.module.js",
-    "main": "build/gaussian-splats-3d.umd.cjs",
-    "types": "build/gaussian-splats-3d.module.d.ts",
+    "module": "./build/gaussian-splats-3d.module.js",
+    "main": "./build/gaussian-splats-3d.umd.cjs",
+    "types": "./build/gaussian-splats-3d.d.ts",
     "author": "Mark Kellogg",
     "license": "MIT",
     "type": "module",
     "scripts": {
-        "build-demo": "mkdir -p ./build/demo && cp -r ./demo ./build/ && cp ./node_modules/three/build/three.module.js ./build/demo/lib/three.module.js",
+        "build-demo": "mkdir -p ./build/demo && cp -r ./demo/* ./build/demo/ && cp ./node_modules/three/build/three.module.js ./build/demo/lib/",
         "build-library": "npx rollup -c && mkdir -p ./build/demo/lib && cp ./build/gaussian-splats-3d.module.* ./build/demo/lib/",
         "build": "npm run build-library && npm run build-demo",
-        "build-windows": "npx rollup -c && mkdir -p .\\build\\demo\\lib && copy .\\build\\gaussian-splats-3d.module.* .\\build\\demo\\lib\\ && mkdir -p .\\build\\demo && xcopy /E /I .\\demo .\\build\\demo && copy .\\node_modules\\three\\build\\three.module.js .\\build\\demo\\lib\\three.module.js",
+        "build-windows": "npx rollup -c && mkdir .\\build\\demo\\lib && copy .\\build\\gaussian-splats-3d.module.* .\\build\\demo\\lib\\ && mkdir .\\build\\demo && xcopy /E /I /Y .\\demo\\* .\\build\\demo\\ && copy .\\node_modules\\three\\build\\three.module.js .\\build\\demo\\lib\\",
         "demo": "npx http-server ./build/demo -p 8080 --cors",
+        "demo-windows": "npx http-server ./build/demo -p 8080 --cors",
         "fix-styling": "npx stylelint **/*.scss --fix",
         "fix-js": "npx eslint src --fix",
         "lint": "npx eslint 'src/**/*.js' || true",
@@ -72,9 +73,7 @@
         "three": ">=0.160.0"
     },
     "files": [
-        "build/gaussian-splats-3d.umd.cjs",
-        "build/gaussian-splats-3d.umd.cjs.map",
-        "build/gaussian-splats-3d.module.js",
-        "build/gaussian-splats-3d.module.js.map"
+        "build",
+        "src"
     ]
 }
