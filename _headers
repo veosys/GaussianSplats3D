@@ -1,0 +1,15 @@
+/*
+  Cross-Origin-Opener-Policy: same-origin
+  Cross-Origin-Embedder-Policy: require-corp
+
+/*.ksplat
+  Content-Type: application/octet-stream
+  Cross-Origin-Resource-Policy: cross-origin
+
+/*.json
+  Content-Type: application/json
+  Cross-Origin-Resource-Policy: cross-origin
+
+/*.js
+  Content-Type: application/javascript
+  Cross-Origin-Resource-Policy: cross-origin 
