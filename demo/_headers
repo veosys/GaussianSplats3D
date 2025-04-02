@@ -1,20 +1,23 @@
 /*
   Cross-Origin-Opener-Policy: same-origin
   Cross-Origin-Embedder-Policy: require-corp
+  Cross-Origin-Resource-Policy: same-origin
   Access-Control-Allow-Origin: *
   Access-Control-Allow-Methods: GET, POST, OPTIONS
   Access-Control-Allow-Headers: Content-Type, Range
   Access-Control-Expose-Headers: Content-Range, Content-Length, Accept-Ranges
-  Cross-Origin-Resource-Policy: same-origin
 
 /*.ksplat
   Content-Type: application/octet-stream
   Cross-Origin-Resource-Policy: cross-origin
+  Cross-Origin-Embedder-Policy: require-corp
 
 /*.json
   Content-Type: application/json
   Cross-Origin-Resource-Policy: cross-origin
+  Cross-Origin-Embedder-Policy: require-corp
 
 /*.js
   Content-Type: application/javascript
-  Cross-Origin-Resource-Policy: cross-origin 
+  Cross-Origin-Resource-Policy: cross-origin
+  Cross-Origin-Embedder-Policy: require-corp 
