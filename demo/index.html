@@ -141,64 +141,63 @@
       }
     }
 
-    // Make loadScene available globally
-    window.loadScene = async function() {
-      try {
-        const loadingIndicator = document.getElementById('loading-indicator');
-        const errorMessage = document.getElementById('error-message');
-        const button = document.querySelector('.load-button');
+    window.loadScene = function() {
+      const loadingIndicator = document.getElementById('loading-indicator');
+      const errorMessage = document.getElementById('error-message');
+      const button = document.querySelector('.load-button');
 
-        // Show loading indicator and disable button
-        loadingIndicator.style.display = 'block';
-        errorMessage.style.display = 'none';
-        button.disabled = true;
+      // Show loading indicator and disable button
+      loadingIndicator.style.display = 'block';
+      errorMessage.style.display = 'none';
+      button.disabled = true;
 
-        console.log('Initializing viewer...');
-        // Initialize viewer
-        viewer = new GaussianSplats3D.Viewer({
-          'cameraUp': [0, -1, -0.6],
-          'initialCameraPosition': [-1, -4, 6],
-          'initialCameraLookAt': [0, 4, 0],
-          'sphericalHarmonicsDegree': 2,
-          'sharedMemoryForWorkers': false // Disable shared memory to avoid CORS issues
-        });
+      console.log('Initializing viewer...');
+      // Initialize viewer
+      viewer = new GaussianSplats3D.Viewer({
+        'cameraUp': [0, -1, -0.6],
+        'initialCameraPosition': [-1, -4, 6],
+        'initialCameraLookAt': [0, 4, 0],
+        'sphericalHarmonicsDegree': 2
+      });
 
-        // Start the viewer first
-        viewer.start();
-        console.log('Viewer started');
+      // Start the viewer first
+      viewer.start();
+      console.log('Viewer started');
 
-        // Load the scene with progressive loading first
-        const modelUrl = 'https://storage.googleapis.com/roadly-stable-persistent/pipeline-b21f8293-2981-43e0-b990-5f637611ee78/uuid500/gaussian_result/point_cloud_desktop.ksplat';
+      // Load the scene with progressive loading first
+      const modelUrl = 'https://ljavsvcjtnftgtvagpth.supabase.co/storage/v1/object/public/splats//point_cloud_desktop.ksplat';
 
-        await viewer.addSplatScene(modelUrl, {
-          'progressiveLoad': true,
-          'showLoadingUI': true,
-          'progressiveLoadChunkSize': 100000 // Adjust this value based on your needs
-        });
-        
+      viewer.addSplatScene(modelUrl, {
+        'progressiveLoad': true,
+        'showLoadingUI': true,
+        'progressiveLoadChunkSize': 100000 // Adjust this value based on your needs
+      })
+      .then(() => {
         console.log('Scene loaded successfully');
         // Wait a bit for the scene to be fully initialized
-        await new Promise(resolve => setTimeout(resolve, 1000));
-        
+        return new Promise(resolve => setTimeout(resolve, 1000));
+      })
+      .then(() => {
         console.log('Checking viewer state:', {
           viewer: !!viewer,
           splatMesh: !!viewer?.splatMesh
         });
-        
         // Now load camera positions
-        await loadCameraPositions();
-        
+        return loadCameraPositions();
+      })
+      .then(() => {
         console.log('Camera positions loaded');
         // Hide loading indicator and container
         loadingIndicator.style.display = 'none';
         document.querySelector('.container').style.display = 'none';
-      } catch (error) {
+      })
+      .catch(error => {
         console.error('Error loading scene:', error);
         errorMessage.textContent = 'Error loading scene. Please try again.';
         errorMessage.style.display = 'block';
         loadingIndicator.style.display = 'none';
         button.disabled = false;
-      }
+      });
     };
   </script>
 </body>
