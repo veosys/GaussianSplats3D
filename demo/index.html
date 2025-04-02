@@ -170,7 +170,8 @@
       viewer.addSplatScene(modelUrl, {
         'progressiveLoad': true,
         'showLoadingUI': true,
-        'progressiveLoadChunkSize': 100000 // Adjust this value based on your needs
+        'progressiveLoadChunkSize': 100000, // Adjust this value based on your needs
+        'useSharedArrayBuffer': false
       })
       .then(() => {
         console.log('Scene loaded successfully');
