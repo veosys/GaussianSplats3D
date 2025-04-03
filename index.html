@@ -5,9 +5,6 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <meta http-equiv="Cross-Origin-Opener-Policy" content="same-origin">
-  <meta http-equiv="Cross-Origin-Embedder-Policy" content="require-corp">
-  <meta http-equiv="Cross-Origin-Resource-Policy" content="same-origin">
   <title>3D Gaussian Splat Demo - Camera Positions</title>
   <script type="importmap">
     {
@@ -109,6 +106,9 @@
     import * as GaussianSplats3D from '@mkkellogg/gaussian-splats-3d';
     import * as THREE from 'three';
 
+    // Flag to enable/disable camera positions loading
+    const ENABLE_CAMERA_POSITIONS = false;
+
     let viewer;
     let cameraSpheres = [];
 
@@ -173,8 +173,7 @@
       viewer.addSplatScene(modelUrl, {
         'progressiveLoad': true,
         'showLoadingUI': true,
-        'progressiveLoadChunkSize': 100000, // Adjust this value based on your needs
-        'useSharedArrayBuffer': false
+        'progressiveLoadChunkSize': 100000 // Adjust this value based on your needs
       })
       .then(() => {
         console.log('Scene loaded successfully');
@@ -186,8 +185,11 @@
           viewer: !!viewer,
           splatMesh: !!viewer?.splatMesh
         });
-        // Now load camera positions
-        return loadCameraPositions();
+        // Now load camera positions if enabled
+        if (ENABLE_CAMERA_POSITIONS) {
+          return loadCameraPositions();
+        }
+        return Promise.resolve();
       })
       .then(() => {
         console.log('Camera positions loaded');
